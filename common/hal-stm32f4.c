@@ -12,9 +12,9 @@
 /* 24 MHz */
 const struct rcc_clock_scale benchmarkclock = {
   .pllm = 8, //VCOin = HSE / PLLM = 1 MHz
-  .plln = 192, //VCOout = VCOin * PLLN = 192 MHz
-  .pllp = 8, //PLLCLK = VCOout / PLLP = 24 MHz (low to have 0WS)
-  .pllq = 4, //PLL48CLK = VCOout / PLLQ = 48 MHz (required for USB, RNG)
+  .plln = 144, //VCOout = VCOin * PLLN = 192 MHz
+  .pllp = 4, //PLLCLK = VCOout / PLLP = 24 MHz (low to have 0WS)
+  .pllq = 3, //PLL48CLK = VCOout / PLLQ = 48 MHz (required for USB, RNG)
   .pllr = 0,
   .hpre = RCC_CFGR_HPRE_DIV_NONE,
   .ppre1 = RCC_CFGR_PPRE_DIV_2,
@@ -22,9 +22,9 @@ const struct rcc_clock_scale benchmarkclock = {
   .pll_source = RCC_CFGR_PLLSRC_HSE_CLK,
   .voltage_scale = PWR_SCALE1,
   .flash_config = FLASH_ACR_DCEN | FLASH_ACR_ICEN | FLASH_ACR_LATENCY_0WS,
-  .ahb_frequency = 24000000,
-  .apb1_frequency = 12000000,
-  .apb2_frequency = 24000000,
+  .ahb_frequency = 36000000,//24000000,
+  .apb1_frequency = 18000000,//12000000,
+  .apb2_frequency = 36000000,//24000000,
 };
 
 static void clock_setup(const enum clock_mode clock)
@@ -121,3 +121,16 @@ uint64_t hal_get_time()
     }
   }
 }
+
+void hal_gpio_set()
+{
+  gpio_mode_setup(GPIOA, GPIO_MODE_OUTPUT, GPIO_PUPD_PULLDOWN, GPIO4);
+  gpio_set(GPIOA, GPIO4);
+}
+void hal_gpio_clear()
+{
+  //gpio_mode_setup(GPIOA, GPIO_MODE_OUTPUT, GPIO_PUPD_PULLDOWN, GPIO4);
+  gpio_clear(GPIOA, GPIO4);
+}
+
+
